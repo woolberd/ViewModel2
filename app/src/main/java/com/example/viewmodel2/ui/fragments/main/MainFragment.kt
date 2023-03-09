@@ -18,7 +18,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private var list: ArrayList<MainModel> = ArrayList()
-    private val mainAdapter = MainAdapter(list,this::onItemClick)
+    private val mainAdapter = MainAdapter(this::onItemClick)
     private var viewModel: MainViewModel? = null
 
     override fun onCreateView(
@@ -35,6 +35,13 @@ class MainFragment : Fragment() {
         clear()
         initialize()
         setupListener()
+        setupObserves()
+    }
+
+    private fun setupObserves() {
+        viewModel?.getModelList()?.observe(viewLifecycleOwner) {
+            mainAdapter.setList(it)
+        }
     }
 
     private fun setupListener() {
@@ -50,7 +57,6 @@ class MainFragment : Fragment() {
     private fun initialize() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        viewModel?.let { list.addAll(it.getModelList()) }
         binding.recyclerView.adapter = mainAdapter
     }
 
@@ -61,8 +67,10 @@ class MainFragment : Fragment() {
     private fun onItemClick(model: MainModel) {
         val text = model.title
         val image = model.image
-       findNavController().navigate(MainFragmentDirections.actionMainFragmentToSecondMainFragment()
-           .setTitle(text).setImage(image))
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToSecondMainFragment()
+                .setTitle(text).setImage(image)
+        )
     }
 
 }

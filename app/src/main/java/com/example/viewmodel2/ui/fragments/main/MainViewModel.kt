@@ -1,13 +1,15 @@
 package com.example.viewmodel2.ui.fragments.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.viewmodel2.utils.model.MainModel
 
 class MainViewModel: ViewModel() {
 
-    private var modelList: ArrayList<MainModel> = ArrayList()
+    private var listTwo: MutableLiveData<ArrayList<MainModel>> = MutableLiveData()
 
-    fun getModelList(): ArrayList<MainModel> {
+    fun getModelList(): MutableLiveData<ArrayList<MainModel>> {
+         val modelList: ArrayList<MainModel> = ArrayList()
         modelList.clear()
         modelList.add(
             MainModel(
@@ -52,6 +54,7 @@ class MainViewModel: ViewModel() {
                         "4501524a0859461f391572ea6e61_large.jpg", "Spider Man"
             )
         )
-        return modelList
+        listTwo.value = modelList
+        return listTwo
     }
 }

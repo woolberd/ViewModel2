@@ -8,9 +8,15 @@ import com.example.viewmodel2.databinding.ItemRvBinding
 import com.example.viewmodel2.utils.model.MainModel
 
 class MainAdapter(
-    private var list: ArrayList<MainModel> = ArrayList(),
     val onItemClick: (model: MainModel) -> Unit)
     : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+
+    private var list: List<MainModel> = ArrayList()
+
+    fun setList(listTwo: List<MainModel>){
+        this.list = listTwo
+        notifyDataSetChanged()
+    }
 
     inner class MainViewHolder(private var binding: ItemRvBinding) :
         RecyclerView.ViewHolder(binding.root) {
